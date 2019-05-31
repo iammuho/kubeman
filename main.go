@@ -18,6 +18,11 @@ import (
 	"log"
 )
 
+// Variables
+var (
+	DefaultConfigPath = "terraform"
+)
+
 // Flag options from CLI
 type Options struct {
     Verbose bool `short:"v" long:"verbose" description:"Show verbose debug information"`
@@ -32,8 +37,9 @@ type kubeManController struct {
 // MAIN Function that to be run on init
 func main() {
 
-	verbose := flag.Bool("v", true, "Enable the debugging mode")
-	output := flag.String("o", "terraform", "What is the output type?")
+	verbose := flag.Bool("v", true, "Show verbose debug information")
+	output := flag.String("o", "terraform", "Generate output as")
+
 	flag.Parse()
 
 	options := Options {
