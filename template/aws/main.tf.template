@@ -17,7 +17,7 @@ provider "aws" {
 ## Backend States
 terraform {
   backend "s3" {
-    bucket = "cloud-stack-terraform.westwing"
+    bucket = "kubeman-terraform"
     key    = "main.tfstate"
     region = "eu-central-1"
   }
