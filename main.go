@@ -20,6 +20,8 @@ import (
 	"github.com/geass/kubeman/cmd"
 )
 
+var Version = "0.1"
+
 func main() {
-	cmd.Execute()
+	cmd.Execute(Version)
 }

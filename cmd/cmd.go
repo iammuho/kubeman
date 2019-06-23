@@ -4,47 +4,37 @@ import (
 	"flag"
 	"log"
 
+	"fmt"
+	"os"
+
 	"github.com/spf13/cobra"
 )
 
 // Variables
 var (
-	DefaultConfigPath = "terraform"
+	generatorVersion string
 )
 
-// Flag options from CLI
-type Options struct {
-    Verbose bool `short:"v" long:"verbose" description:"Show verbose debug information"`
-    Output string `short:"o" long:"output" description:"What is the output type?"`
-}
-
-// Controller struct
-type kubeManController struct {
-	Options Options
-}
-
-// MAIN Function that to be run on init
-func main() {
-
-	verbose := flag.Bool("v", true, "Show verbose debug information")
-	output := flag.String("o", "terraform", "Generate output as")
-
-	flag.Parse()
-
-	options := Options {
-		Verbose: *verbose,
-		Output: *output,
-	}
-
-	kubeMan := kubeManController {
-		Options: options,
-	}
-
-    kubeMan.Run()
-}
-
-// RUN function that to be triggered by main function for initial startup
-func (k *kubeManController) Run() {
+// Execute will run main logic
+func Execute(version string) {
+	generatorVersion = version
 
 	log.Print("WKM app started")
+
+	cmd := &cobra.Command{
+		Use:     "generator",
+		Short:   "CLI for generating terraform variables",
+		Example: "  terraform-variable-generator",
+		Version: generatorVersion,
+		Run:     runGenerator,
+	}
+
+	cmd.PersistentFlags().BoolVar(&vars, "vars", true, "generate variables")
+	cmd.PersistentFlags().StringVar(&varsFile, "vars-file", "./variables.tf", "path to generated variables file")
+
+	if err := cmd.Execute(); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	os.Exit(0)
 }
