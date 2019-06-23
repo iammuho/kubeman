@@ -14,10 +14,7 @@ limitations under the License.
 package main
 
 import (
-	"flag"
-	"log"
-
-	"github.com/geass/kubeman/cmd"
+	"./cmd"
 )
 
 var Version = "0.1"
