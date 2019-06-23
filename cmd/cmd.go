@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"flag"
 	"log"
 
 	"fmt"
@@ -29,12 +28,13 @@ func Execute(version string) {
 		Run:     runGenerator,
 	}
 
-	cmd.PersistentFlags().BoolVar(&vars, "vars", true, "generate variables")
-	cmd.PersistentFlags().StringVar(&varsFile, "vars-file", "./variables.tf", "path to generated variables file")
-
 	if err := cmd.Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
 	os.Exit(0)
+}
+
+func runGenerator(cmd *cobra.Command, args []string) {
+	fmt.Println("Muho")
 }
