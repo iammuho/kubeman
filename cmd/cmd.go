@@ -7,6 +7,8 @@ import (
 	"log"
 	"strconv"
 
+	"../pkg/aws"
+
 	"github.com/spf13/cobra"
 )
 
@@ -56,5 +58,5 @@ func runGenerator(cmd *cobra.Command, args []string) {
 		log.Print("Worker Count : "  + strconv.Itoa(workerCount))
 	}
 
-	
+	aws.Build(debug, masterCount, workerCount)
 }
