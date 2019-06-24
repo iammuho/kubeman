@@ -7,26 +7,13 @@ import (
 	"log"
 	"strconv"
 
-	"../pkg/aws"
+	Utils "../utils"
 
 	"github.com/spf13/cobra"
 )
 
-// Variables
-var (
-	generatorVersion string
-
-	debug bool
-
-	provider     string
-
-	masterCount int
-	workerCount int
-)
-
 // Execute will run main logic
-func Execute(version string) {
-	generatorVersion = version
+func Execute(generatorVersion string) {
 
 	cmd := &cobra.Command{
 		Use:     "generator",
@@ -36,10 +23,10 @@ func Execute(version string) {
 		Run:     runGenerator,
 	}
 
-	cmd.PersistentFlags().StringVar(&provider, "provider", "aws", "Terraform provider")
-	cmd.PersistentFlags().IntVar(&masterCount, "master", 3, "Master Count")
-	cmd.PersistentFlags().IntVar(&workerCount, "worker", 3, "Worker Count")
-	cmd.PersistentFlags().BoolVar(&debug, "debug", false, "Debug Mode")
+	cmd.PersistentFlags().StringVar(&Utils.createOptions.provider, "provider", "aws", "Terraform provider")
+	cmd.PersistentFlags().IntVar(&Utils.createOptions.masterCount, "master", 3, "Master Count")
+	cmd.PersistentFlags().IntVar(&Utils.createOptions.workerCount, "worker", 3, "Worker Count")
+	cmd.PersistentFlags().BoolVar(&Utils.createOptions.debug, "debug", false, "Debug Mode")
 
 	if err := cmd.Execute(); err != nil {
 		fmt.Println(err)
@@ -52,11 +39,10 @@ func Execute(version string) {
 func runGenerator(cmd *cobra.Command, args []string) {
 	log.Print("Kubeman started")
 
-	if debug {
-		log.Print("Provider : "  + string(provider))
-		log.Print("Master Count : "  + strconv.Itoa(masterCount))
-		log.Print("Worker Count : "  + strconv.Itoa(workerCount))
+	if Utils.createOptions.debug {
+		log.Print("Provider : "  + string(Utils.createOptions.provider))
+		log.Print("Master Count : "  + strconv.Itoa(Utils.createOptions.masterCount))
+		log.Print("Worker Count : "  + strconv.Itoa(Utils.createOptions.workerCount))
 	}
 
-	aws.Build(debug, masterCount, workerCount)
 }
