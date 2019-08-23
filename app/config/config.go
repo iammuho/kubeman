@@ -45,7 +45,7 @@ type (
 	// kubernetes provides the kubernetes configuration.
 	Kubernetes struct {
 		MasterCount  int `envconfig:"KUBEMAN_KUBERNETES_MASTER_COUNT"`
-		WorkerCount  bool `envconfig:"KUBEMAN_KUBERNETES_WORKER_COUNT"`
+		WorkerCount  int `envconfig:"KUBEMAN_KUBERNETES_WORKER_COUNT"`
 	}
 )
 

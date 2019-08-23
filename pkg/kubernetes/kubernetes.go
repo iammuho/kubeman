@@ -12,28 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package main
+package kubernetes
 
-import (
-	"github.com/kubeman/app/config"
-	"github.com/kubeman/pkg/kubeman"
-	"github.com/kubeman/pkg/terraform"
-	"github.com/kubeman/pkg/kubernetes"
-
-	"github.com/google/wire"
-)
-
-// wire set for kubeman.
-var kubemanSet = wire.NewSet(
-	provideKubeman,
-)
-
-// provideKubeman is a Wire provider function that returns an
-// kubeman application that is configured from the environment.
-func provideKubeman(terraform *terraform.Terraform, kubernetes *kubernetes.Kubernetes, config config.Config) *kubeman.Kubeman {
-	return &kubeman.Kubeman{
-		Terraform:    terraform,
-		Kubernetes:    kubernetes,
-	}
+// A Kubernetes defines parameters for running an Kubeman Application
+type Kubernetes struct {
+	MasterCount int
+	WorkerCount int
 }
-

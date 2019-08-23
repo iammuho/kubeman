@@ -16,23 +16,17 @@ package kubeman
 
 import (
 	"github.com/kubeman/pkg/terraform"
-
-	"golang.org/x/sync/errgroup"
+	"github.com/kubeman/pkg/kubernetes"
 )
 
 // A Kubeman defines parameters for running an Kubeman Application
 type Kubeman struct {
 	Terraform *terraform.Terraform
+	Kubernetes *kubernetes.Kubernetes
 }
 
 
 // start is the main fuction to run kubeman application
 func (k Kubeman) Start() (error) {
-	var g errgroup.Group
-
-	g.Go(func() error {
-		return nil
-	})
-
-	return g.Wait()
+	return nil
 }

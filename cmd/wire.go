@@ -25,6 +25,7 @@ import (
 func InitializeApplication(config config.Config) (application, error) {
 	wire.Build(
 		terraformSet,
+		kubernetesSet,
 		kubemanSet,
 		newApplication,
 	)

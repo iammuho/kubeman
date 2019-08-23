@@ -20,11 +20,11 @@ import (
 
 	"github.com/kubeman/app/config"
 	"github.com/kubeman/pkg/kubeman"
+	"github.com/kubeman/pkg/kubernetes"
 	"github.com/kubeman/pkg/terraform"
 
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
-	"golang.org/x/sync/errgroup"
 )
 
 func main() {
@@ -59,20 +59,14 @@ func main() {
 	}
 
 	// Start the kubeman
-	g := errgroup.Group{}
-	g.Go(func() error {
-		logrus.WithFields(
-			logrus.Fields{
-				"Provider": config.Terraform.Provider,
-			},
-		).Info("starting the application")
-		return app.Kubeman.Start()
-	})
-
-	// Wait the gorouitine
-	if err := g.Wait(); err != nil {
-		logrus.WithError(err).Fatalln("program terminated")
-	}
+	logrus.WithFields(
+		logrus.Fields{
+			"Provider": config.Terraform.Provider,
+			"MasterCount": config.Kubernetes.MasterCount,
+			"WorkerCount": config.Kubernetes.WorkerCount,
+		},
+	).Info("starting the application")
+	app.Kubeman.Start()
 }
 
 // helper function configures the logging.
@@ -98,16 +92,19 @@ func initLogging(c config.Config) {
 // application is the main struct for the kubeman
 type application struct {
 	Terraform *terraform.Terraform
+	Kubernetes *kubernetes.Kubernetes
 	Kubeman *kubeman.Kubeman
 }
 
 // newApplication creates a new application struct.
 func newApplication(
 	Terraform *terraform.Terraform,
+	Kubernetes *kubernetes.Kubernetes,
 	Kubeman *kubeman.Kubeman,
 	) application {
 	return application{
 		Terraform: Terraform,
+		Kubernetes: Kubernetes,
 		Kubeman: Kubeman,
 	}
 }

@@ -13,7 +13,8 @@ import (
 
 func InitializeApplication(config2 config.Config) (application, error) {
 	terraform := provideTerraform(config2)
-	kubeman := provideKubeman(terraform, config2)
-	mainApplication := newApplication(terraform, kubeman)
+	kubernetes := provideKubernetes(config2)
+	kubeman := provideKubeman(terraform, kubernetes, config2)
+	mainApplication := newApplication(terraform, kubernetes, kubeman)
 	return mainApplication, nil
 }

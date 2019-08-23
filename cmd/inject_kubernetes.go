@@ -16,24 +16,22 @@ package main
 
 import (
 	"github.com/kubeman/app/config"
-	"github.com/kubeman/pkg/kubeman"
-	"github.com/kubeman/pkg/terraform"
 	"github.com/kubeman/pkg/kubernetes"
 
 	"github.com/google/wire"
 )
 
-// wire set for kubeman.
-var kubemanSet = wire.NewSet(
-	provideKubeman,
+// wire set for terraform.
+var kubernetesSet = wire.NewSet(
+	provideKubernetes,
 )
 
-// provideKubeman is a Wire provider function that returns an
-// kubeman application that is configured from the environment.
-func provideKubeman(terraform *terraform.Terraform, kubernetes *kubernetes.Kubernetes, config config.Config) *kubeman.Kubeman {
-	return &kubeman.Kubeman{
-		Terraform:    terraform,
-		Kubernetes:    kubernetes,
+// provideKubernetes is a Wire provider function that returns an
+// kubernetes struct that is configured from the environment.
+func provideKubernetes(config config.Config) *kubernetes.Kubernetes {
+	return &kubernetes.Kubernetes{
+		MasterCount:    config.Kubernetes.MasterCount,
+		WorkerCount:    config.Kubernetes.WorkerCount,
 	}
 }
 
